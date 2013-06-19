@@ -123,6 +123,9 @@ class openstack::controller (
   # Glance Swift Backend
   $swift_store_user        = 'swift_store_user',
   $swift_store_key         = 'swift_store_key',
+  # Glance rbd Backend
+  $rbd_store_user          = 'rbd_store_user',
+  $rbd_store_pool          = 'rbd_store_pool',
   # Nova
   $nova_admin_tenant_name  = 'services',
   $nova_admin_user         = 'nova',
@@ -282,6 +285,8 @@ class openstack::controller (
     backend          => $glance_backend,
     swift_store_user => $swift_store_user,
     swift_store_key  => $swift_store_key,
+    rbd_store_user   => $rbd_store_user,
+    rbd_store_pool   => $rbd_store_pool,
     enabled          => $enabled,
   }
 

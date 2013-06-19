@@ -45,6 +45,8 @@ class openstack::glance (
   $swift_store_user         = false,
   $swift_store_key          = false,
   $swift_store_auth_address = "http://127.0.0.1:5000/v2.0/",
+  $rbd_store_user           = false,
+  $rbd_store_pool           = false,
   $verbose                  = 'False',
   $enabled                  = true
 ) {
@@ -99,6 +101,20 @@ class openstack::glance (
       swift_store_key                     => $swift_store_key,
       swift_store_auth_address            => $swift_store_auth_address,
       swift_store_create_container_on_put => 'True',
+    }
+  } elsif($backend == 'rbd') {
+
+    if ! $rbd_store_user {
+      fail('rbd_store_user, must be set when configuring rbd as the glance backend')
+    }
+    if ! $rbd_store_pool {
+      fail('rbd_store_pool, must be set when configuring rbd as the glance backend')
+    }
+
+    class { 'glance::backend::rbd':
+      rbd_store_user                      => $rbd_store_user,
+      rbd_store_pool                      => $rbd_store_pool,
+      show_image_direct_url               => 'True'
     }
   } elsif($backend == 'file') {
   # Configure file storage backend

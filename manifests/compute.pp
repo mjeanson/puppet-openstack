@@ -73,6 +73,9 @@ class openstack::compute (
   $volume_group                  = 'cinder-volumes',
   $iscsi_ip_address              = '127.0.0.1',
   $setup_test_volume             = false,
+  $rbd_user                      = 'volumes',
+  $rbd_pool                      = 'volumes',
+  $rbd_secret_uuid               = undef,
   # General
   $migration_support             = false,
   $verbose                       = false,
@@ -245,7 +248,10 @@ class openstack::compute (
       enabled             => $enabled,
       verbose             => $verbose,
       setup_test_volume   => $setup_test_volume,
-      volume_driver       => 'iscsi',
+      volume_driver       => 'rbd',
+      rbd_user            => $rbd_user,
+      rbd_pool            => $rbd_pool,
+      rbd_secret_uuid     => $rbd_secret_uuid,
     }
 
     # set in nova::api
